@@ -7,7 +7,7 @@ import com.akhil.roomdatabase.dao.NoteDao;
 import com.akhil.roomdatabase.model.Note;
 
 /**
- * Created by e on 12-01-2018.
+ * Created by Akhil on 12-01-2018.
  */
 
 @Database(entities = {Note.class}, version = 1)

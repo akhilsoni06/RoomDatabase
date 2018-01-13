@@ -6,8 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.akhil.roomdatabase.activity.AddNoteActivity;
@@ -17,27 +17,30 @@ import com.akhil.roomdatabase.model.Note;
 import java.util.List;
 
 /**
- * Created by e on 12-01-2018.
+ * Created by Akhil on 12-01-2018.
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private RecyclerView mListView;
+    private RecyclerView mRecycleListView;
     private AppDatabase mDataBase;
+    private NoteAdapter mNoteAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDataBase = Room.databaseBuilder(this,AppDatabase.class,AppDatabase.DB_NAME).build();
+        mDataBase = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME).build();
         initView();
     }
 
-    private void initView()
-    {
-        mListView =(RecyclerView)findViewById(R.id.recycler_view);
+    private void initView() {
+        mRecycleListView = (RecyclerView) findViewById(R.id.recycler_view);
         findViewById(R.id.add).setOnClickListener(this);
 
-}
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(MainActivity.this);
+        mRecycleListView.setLayoutManager(manager);
+
+    }
 
     @Override
     protected void onResume() {
@@ -47,8 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view.getId()== R.id.add)
-        {
+        if (view.getId() == R.id.add) {
             startActivity(new Intent(this, AddNoteActivity.class));
         }
     }
@@ -63,10 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(List<Note> notes) {
                 //adapter.setNotes(notes);
-                if(notes.size()>0)
-                    Log.d("note size is",notes.size()+" size"+notes.get(0).getTitle());
+                if (notes != null && notes.size() > 0)
+                    mNoteAdapter = new NoteAdapter(notes);
+                mRecycleListView.setAdapter(mNoteAdapter);
             }
-
         }.execute();
     }
-    }
+}

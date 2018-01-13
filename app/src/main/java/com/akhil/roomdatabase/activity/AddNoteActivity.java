@@ -16,7 +16,7 @@ import com.akhil.roomdatabase.db.AppDatabase;
 import com.akhil.roomdatabase.model.Note;
 
 /**
- * Created by e on 13-01-2018.
+ * Created by Akhil on 13-01-2018.
  */
 
 public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener {
@@ -65,11 +65,8 @@ public class AddNoteActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected Void doInBackground(Note... param) {
             Note saveNote = param[0];
-
-            Log.d("note", saveNote.getTitle() + "" + saveNote.getDescription());
             if (saveNote != null)
                 mDataBase.getNoteDao().insetAll(saveNote);
-
             return null;
         }
 
