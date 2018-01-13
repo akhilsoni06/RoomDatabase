@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import com.akhil.roomdatabase.activity.AddNoteActivity;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView mRecycleListView;
     private AppDatabase mDataBase;
     private NoteAdapter mNoteAdapter;
@@ -39,6 +42,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(MainActivity.this);
         mRecycleListView.setLayoutManager(manager);
+
+        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                  deleteNote(mNoteAdapter.getNote(viewHolder.getAdapterPosition()));
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(mRecycleListView);
 
     }
 
@@ -64,11 +81,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             protected void onPostExecute(List<Note> notes) {
-                //adapter.setNotes(notes);
-                if (notes != null && notes.size() > 0)
                     mNoteAdapter = new NoteAdapter(notes);
                 mRecycleListView.setAdapter(mNoteAdapter);
             }
         }.execute();
+    }
+
+
+    private void deleteNote(final Note note) {
+       new AsyncTask<Note,Void ,Void>()
+       {
+           @Override
+           protected Void doInBackground(Note... notes) {
+               mDataBase.getNoteDao().deleteAll(note);
+               return null;
+           }
+
+           @Override
+           protected void onPostExecute(Void aVoid) {
+               super.onPostExecute(aVoid);
+               loadNotes();
+           }
+       }.execute(note);
     }
 }

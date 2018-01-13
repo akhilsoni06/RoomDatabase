@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.akhil.roomdatabase.model.Note;
 
 import java.util.List;
@@ -35,6 +36,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ItemHolder> {
         holder.mTitle.setText(note.getTitle());
         holder.mDescription.setText(note.getDescription());
 
+    }
+
+    public Note getNote(int position) {
+        return mNoteList.get(position);
     }
 
     @Override
