@@ -1,4 +1,4 @@
-package com.akhil.roomdatabase;
+package com.akhil.roomdatabase.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.akhil.roomdatabase.R;
 import com.akhil.roomdatabase.model.Note;
 
 import java.util.List;

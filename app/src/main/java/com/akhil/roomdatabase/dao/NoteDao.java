@@ -10,7 +10,8 @@ import com.akhil.roomdatabase.model.Note;
 
 import java.util.List;
 
-/**DAOs are responsible for defining the methods that access the database
+/**
+ * DAOs are responsible for defining the methods that access the database.
  * Created by Akhil on 13-01-2018.
  */
 

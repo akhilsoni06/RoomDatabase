@@ -1,4 +1,4 @@
-package com.akhil.roomdatabase;
+package com.akhil.roomdatabase.activity;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
@@ -9,10 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 
-import com.akhil.roomdatabase.activity.AddNoteActivity;
+import com.akhil.roomdatabase.R;
+import com.akhil.roomdatabase.adapter.NoteAdapter;
 import com.akhil.roomdatabase.db.AppDatabase;
 import com.akhil.roomdatabase.model.Note;
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                  deleteNote(mNoteAdapter.getNote(viewHolder.getAdapterPosition()));
+                deleteNote(mNoteAdapter.getNote(viewHolder.getAdapterPosition()));
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             protected void onPostExecute(List<Note> notes) {
-                    mNoteAdapter = new NoteAdapter(notes);
+                mNoteAdapter = new NoteAdapter(notes);
                 mRecycleListView.setAdapter(mNoteAdapter);
             }
         }.execute();
@@ -89,19 +89,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void deleteNote(final Note note) {
-       new AsyncTask<Note,Void ,Void>()
-       {
-           @Override
-           protected Void doInBackground(Note... notes) {
-               mDataBase.getNoteDao().deleteAll(note);
-               return null;
-           }
+        new AsyncTask<Note, Void, Void>() {
+            @Override
+            protected Void doInBackground(Note... notes) {
+                mDataBase.getNoteDao().deleteAll(note);
+                return null;
+            }
 
-           @Override
-           protected void onPostExecute(Void aVoid) {
-               super.onPostExecute(aVoid);
-               loadNotes();
-           }
-       }.execute(note);
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                loadNotes();
+            }
+        }.execute(note);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDataBase.close();
     }
 }
