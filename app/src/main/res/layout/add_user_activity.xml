@@ -5,21 +5,21 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/edt_title"
+        android:id="@+id/edt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/note_title" />
 
     <EditText
-        android:id="@+id/edt_description"
+        android:id="@+id/edt_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/note_description" />
 
     <Button
-        android:id="@+id/btn_add_note"
+        android:id="@+id/btn_add_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_note"/>
+        android:text="@string/add_note" />
 
 </LinearLayout>

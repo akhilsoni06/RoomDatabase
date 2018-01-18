@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AddNoteActivity"
+            android:name=".activity.AddUserActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,72 +1,70 @@
 package com.akhil.roomdatabase.activity;
 
-import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.akhil.roomdatabase.R;
 import com.akhil.roomdatabase.db.AppDatabase;
-import com.akhil.roomdatabase.model.Note;
+import com.akhil.roomdatabase.model.User;
 
 /**
  * Created by Akhil on 13-01-2018.
  */
 
-public class AddNoteActivity extends AppCompatActivity implements View.OnClickListener {
-    private EditText mEdtTitle;
-    private EditText mEdtDescription;
+public class AddUserActivity extends AppCompatActivity implements View.OnClickListener {
+    private EditText mEdtName;
+    private EditText mEdtCity;
     private AppDatabase mDataBase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_note_activity);
+        setContentView(R.layout.add_user_activity);
         mDataBase = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME).build();
         initView();
     }
 
     private void initView() {
-        mEdtTitle = (EditText) findViewById(R.id.edt_title);
-        mEdtDescription = (EditText) findViewById(R.id.edt_description);
-        findViewById(R.id.btn_add_note).setOnClickListener(this);
+        mEdtName = (EditText) findViewById(R.id.edt_name);
+        mEdtCity = (EditText) findViewById(R.id.edt_city);
+        findViewById(R.id.btn_add_user).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_add_note:
+            case R.id.btn_add_user:
 
-                Note note = new Note();
+                User user = new User();
 
-                if (!TextUtils.isEmpty(mEdtTitle.getText().toString().trim()))
-                    note.setTitle(mEdtTitle.getText().toString().trim());
+                if (!TextUtils.isEmpty(mEdtName.getText().toString().trim()))
+                    user.setName(mEdtName.getText().toString().trim());
 
-                if (!TextUtils.isEmpty(mEdtDescription.getText().toString().trim()))
-                    note.setDescription(mEdtDescription.getText().toString().trim());
+                if (!TextUtils.isEmpty(mEdtCity.getText().toString().trim()))
+                    user.setCity(mEdtCity.getText().toString().trim());
 
-                new SaveNote().execute(note);
+                new SaveUser().execute(user);
                 break;
         }
     }
 
-    private class SaveNote extends AsyncTask<Note, Void, Void> {
+    private class SaveUser extends AsyncTask<User, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected Void doInBackground(Note... param) {
-            Note saveNote = param[0];
-            if (saveNote != null)
-                mDataBase.getNoteDao().insetAll(saveNote);
+        protected Void doInBackground(User... param) {
+            User saveUser = param[0];
+            if (saveUser != null)
+                mDataBase.getUserDao().insetAll(saveUser);
             return null;
         }
 

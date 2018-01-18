@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.akhil.roomdatabase.model.Note;
+import com.akhil.roomdatabase.model.User;
 
 import java.util.List;
 
@@ -16,17 +16,17 @@ import java.util.List;
  */
 
 @Dao
-public interface NoteDao {
+public interface UserDao {
     @Insert
-    void insetAll(Note... note);
+    void insetAll(User... user);
 
     @Update
-    void updateAll(Note... note);
+    void updateAll(User... user);
 
     @Delete
-    void deleteAll(Note... note);
+    void deleteAll(User... user);
 
-    @Query("SELECT * FROM note")
-    List<Note> getAllNote();
+    @Query("SELECT * FROM User")
+    List<User> getAllUser();
 
 }

@@ -12,9 +12,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.akhil.roomdatabase.R;
-import com.akhil.roomdatabase.adapter.NoteAdapter;
+import com.akhil.roomdatabase.adapter.UserAdapter;
 import com.akhil.roomdatabase.db.AppDatabase;
-import com.akhil.roomdatabase.model.Note;
+import com.akhil.roomdatabase.model.User;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView mRecycleListView;
     private AppDatabase mDataBase;
-    private NoteAdapter mNoteAdapter;
+    private UserAdapter mUserAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                deleteNote(mNoteAdapter.getNote(viewHolder.getAdapterPosition()));
+                deleteNote(mUserAdapter.getNote(viewHolder.getAdapterPosition()));
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -68,31 +68,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.add) {
-            startActivity(new Intent(this, AddNoteActivity.class));
+            startActivity(new Intent(this, AddUserActivity.class));
         }
     }
 
     private void loadNotes() {
-        new AsyncTask<Void, Void, List<Note>>() {
+        new AsyncTask<Void, Void, List<User>>() {
             @Override
-            protected List<Note> doInBackground(Void... params) {
-                return mDataBase.getNoteDao().getAllNote();
+            protected List<User> doInBackground(Void... params) {
+                return mDataBase.getUserDao().getAllUser();
             }
 
             @Override
-            protected void onPostExecute(List<Note> notes) {
-                mNoteAdapter = new NoteAdapter(notes);
-                mRecycleListView.setAdapter(mNoteAdapter);
+            protected void onPostExecute(List<User> users) {
+                mUserAdapter = new UserAdapter(users);
+                mRecycleListView.setAdapter(mUserAdapter);
             }
         }.execute();
     }
 
 
-    private void deleteNote(final Note note) {
-        new AsyncTask<Note, Void, Void>() {
+    private void deleteNote(final User user) {
+        new AsyncTask<User, Void, Void>() {
             @Override
-            protected Void doInBackground(Note... notes) {
-                mDataBase.getNoteDao().deleteAll(note);
+            protected Void doInBackground(User... users) {
+                mDataBase.getUserDao().deleteAll(user);
                 return null;
             }
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 super.onPostExecute(aVoid);
                 loadNotes();
             }
-        }.execute(note);
+        }.execute(user);
     }
 
     @Override

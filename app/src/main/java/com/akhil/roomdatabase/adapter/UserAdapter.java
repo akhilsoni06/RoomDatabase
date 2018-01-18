@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.akhil.roomdatabase.R;
-import com.akhil.roomdatabase.model.Note;
+import com.akhil.roomdatabase.model.User;
 
 import java.util.List;
 
@@ -15,47 +15,44 @@ import java.util.List;
  * Created by Akhil on 13-01-2018.
  */
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ItemHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ItemHolder> {
 
-    private List<Note> mNoteList;
-
-    public NoteAdapter(List<Note> list) {
-        mNoteList = list;
+    private List<User> mUserList;
+    public UserAdapter(List<User> list) {
+        mUserList = list;
     }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_note, parent, false);
+        View view = inflater.inflate(R.layout.item_user, parent, false);
         return new ItemHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ItemHolder holder, int position) {
-
-        Note note = mNoteList.get(position);
-        holder.mTitle.setText(note.getTitle());
-        holder.mDescription.setText(note.getDescription());
-
+        User user = mUserList.get(position);
+        holder.mUserName.setText(user.getName());
+        holder.mUserCity.setText(user.getCity());
     }
 
-    public Note getNote(int position) {
-        return mNoteList.get(position);
+    public User getNote(int position) {
+        return mUserList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return mNoteList.size();
+        return mUserList.size();
     }
 
     public static class ItemHolder extends RecyclerView.ViewHolder {
-        private TextView mTitle;
-        private TextView mDescription;
+        private TextView mUserName;
+        private TextView mUserCity;
 
         public ItemHolder(View itemView) {
             super(itemView);
-            mTitle = (TextView) itemView.findViewById(R.id.title);
-            mDescription = (TextView) itemView.findViewById(R.id.description);
+            mUserName = (TextView) itemView.findViewById(R.id.name);
+            mUserCity = (TextView) itemView.findViewById(R.id.city);
         }
     }
 }

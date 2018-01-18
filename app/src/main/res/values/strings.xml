@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Room Database</string>
-    <string name="note_title">Enter title</string>
-    <string name="note_description">Enter description</string>
-    <string name="add_note">Add Note</string>
+    <string name="note_title">Enter name</string>
+    <string name="note_description">Enter city</string>
+    <string name="add_note">Add User</string>
 </resources>
