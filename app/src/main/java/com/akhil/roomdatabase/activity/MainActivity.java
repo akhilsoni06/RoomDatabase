@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                deleteNote(mUserAdapter.getNote(viewHolder.getAdapterPosition()));
+                deleteUser(mUserAdapter.getNote(viewHolder.getAdapterPosition()));
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        loadNotes();
+        loadUser();
     }
 
     @Override
@@ -72,7 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void loadNotes() {
+    /**
+     * This method load the user info from the user table.
+     */
+    private void loadUser() {
         new AsyncTask<Void, Void, List<User>>() {
             @Override
             protected List<User> doInBackground(Void... params) {
@@ -87,8 +90,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.execute();
     }
 
-
-    private void deleteNote(final User user) {
+    /**
+     * This method is used to delete the user from the user table.
+     * @param user
+     */
+    private void deleteUser(final User user) {
         new AsyncTask<User, Void, Void>() {
             @Override
             protected Void doInBackground(User... users) {
@@ -99,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                loadNotes();
+                loadUser();
             }
         }.execute(user);
     }
