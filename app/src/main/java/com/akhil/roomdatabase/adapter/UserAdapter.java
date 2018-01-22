@@ -36,7 +36,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ItemHolder> {
         holder.mUserCity.setText(user.getCity());
     }
 
-    public User getNote(int position) {
+    public User getUser(int position) {
         return mUserList.get(position);
     }
 

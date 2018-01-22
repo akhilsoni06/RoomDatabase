@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                deleteUser(mUserAdapter.getNote(viewHolder.getAdapterPosition()));
+                deleteUser(mUserAdapter.getUser(viewHolder.getAdapterPosition()));
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
